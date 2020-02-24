@@ -10,39 +10,75 @@ const data = {
     },
     2: {
       id: '3'
+    },
+    3: {
+      id: '3'
+    },
+    4: {
+      id: '4'
+    },
+    5: {
+      id: '5'
     }
   },
   1: {
     0: {
-      id: '4'
+      id: '1'
     },
     1: {
-      id: '5'
+      id: '2'
     },
     2: {
-      id: '6'
+      id: '3'
+    },
+    3: {
+      id: '3'
+    },
+    4: {
+      id: '4'
+    },
+    5: {
+      id: '5'
     }
   },
   2: {
     0: {
-      id: '7'
+      id: '1'
     },
     1: {
-      id: '8'
+      id: '2'
     },
     2: {
-      id: '9'
+      id: '3'
+    },
+    3: {
+      id: '3'
+    },
+    4: {
+      id: '4'
+    },
+    5: {
+      id: '5'
     }
   },
   3: {
     0: {
-      id: '10'
+      id: '1'
     },
     1: {
-      id: '11'
+      id: '2'
     },
     2: {
-      id: '12'
+      id: '3'
+    },
+    3: {
+      id: '3'
+    },
+    4: {
+      id: '4'
+    },
+    5: {
+      id: '5'
     }
   }
 };
@@ -52,29 +88,43 @@ const data = {
 
 
 function App() {
+  const [overCells, setOverCells] = useState(false);
   const [selected, setSelected] = useState({});
   const styles = {
     app: {
-      width: '200px',
-      margin: '0 auto'
+      width: '312px',
+      margin: '10% auto'
     },
     column: (row, col) => ({
       height: '50px',
+      margin: '-1px',
       width: '50px',
-      border: '1px solid',
-      background: selected.row >= row && selected.col >= col ? 'red' : 'transparent'
+      border: '2px solid',
+      background: overCells && (selected.row >= row && selected.col >= col) ? 'red' : 'transparent'
     }),
     row: {
       display: 'flex',
       justifyContent: 'center'
     }
   }
-  const renderColumn = (data, row, col) => <div onMouseOver={() => setSelected({row, col})} col={col} row={row} style={styles.column(row, col)}>{data.id}</div>
+  const renderColumn = (row, col) => 
+    <div
+      col={col}
+      onMouseOver={() => setSelected({row, col})}
+      row={row}
+      style={styles.column(row, col)}
+    />
+  
   return (
-    <div className="App" style={styles.app}>
-    {Object.keys(data).map(row => 
-      <div style={styles.row}>{Object.keys(data[row]).map(col => renderColumn(data[row][col], row, col))}</div>
-    )}
+    <div
+      className="App"
+      onMouseEnter={() => setOverCells(true)}
+      onMouseLeave={() => setOverCells(false)}
+      style={styles.app}
+    >
+      {Object.keys(data).map(row => 
+        <div style={styles.row}>{Object.keys(data[row]).map(col => renderColumn(row, col))}</div>
+      )}
     </div>
   );
 }
