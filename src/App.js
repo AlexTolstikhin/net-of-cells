@@ -33,34 +33,47 @@ const data = {
     2: {
       id: '9'
     }
+  },
+  3: {
+    0: {
+      id: '10'
+    },
+    1: {
+      id: '11'
+    },
+    2: {
+      id: '12'
+    }
   }
 };
 
 
-const styles = {
-  app: {
-    width: '200px',
-    margin: '0 auto'
-  },
-  column: {
-    height: '50px',
-    width: '50px',
-    border: '1px solid'
-  },
-  row: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-}
 
-const renderColumn = (data, row, col) => <div style={styles.column}>{col.id}</div>
 
 
 function App() {
+  const [selected, setSelected] = useState({});
+  const styles = {
+    app: {
+      width: '200px',
+      margin: '0 auto'
+    },
+    column: (row, col) => ({
+      height: '50px',
+      width: '50px',
+      border: '1px solid',
+      background: selected.row >= row && selected.col >= col ? 'red' : 'transparent'
+    }),
+    row: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }
+  const renderColumn = (data, row, col) => <div onMouseOver={() => setSelected({row, col})} col={col} row={row} style={styles.column(row, col)}>{data.id}</div>
   return (
     <div className="App" style={styles.app}>
     {Object.keys(data).map(row => 
-      <div style={styles.row}>{Object.keys(data[row]).map(item => renderColumn(data[row][item]))}</div>
+      <div style={styles.row}>{Object.keys(data[row]).map(col => renderColumn(data[row][col], row, col))}</div>
     )}
     </div>
   );
